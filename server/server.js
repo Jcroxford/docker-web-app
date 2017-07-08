@@ -25,13 +25,12 @@ app.get('/docker/allthethings', (req, res) => {
   //     res.status(400).send()
   //   })
   getDockerImages()
-    .then((res) => res.json(res))
-    .catch((err) => res.status(400).send())
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.log(err)
+      res.status(500).send()
+    })
 })
 // end temporary
 
-// app.listen(port, () => console.log(`listening on port ${port}`))
-
-getDockerImages()
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
+app.listen(port, () => console.log(`listening on port ${port}`))
