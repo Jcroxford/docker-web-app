@@ -15,22 +15,15 @@ const app = express()
 app.get('/', (req, res) => {
   res.send('Hey there, try visiting the route /docker/allthethings ;)')
 })
+
 app.get('/docker/allthethings', (req, res) => {
-  // Promise.all(getDockerImages(), getDockerContainers())
-  //   .then( (dockerInfo) => {
-  //     res.json(dockerInfo)
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //     res.status(400).send()
-  //   })
-  getDockerImages()
-    .then((result) => res.json(result))
-    .catch((err) => {
+  Promise.all([getDockerImages(), getDockerContainers()])
+    .then( dockerInfo => res.json(dockerInfo))
+    .catch( (err) => {
       console.log(err)
       res.status(500).send()
     })
 })
 // end temporary
 
-app.listen(port, () => console.log(`listening on port ${port}`))
+app.listen(port, () => console.log(`listening on http://localhost:${port}`))
