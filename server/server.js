@@ -9,16 +9,14 @@ const path = require('path')
 
 const {getDockerImages, getDockerContainers} = require('./utils/dockerCommands')
 
+const publicPath = (`${__dirname}/public`)
 const port  = process.env.PORT || 3000
 const app = express()
-app.use(express.static())
+
+app.use(express.static(publicPath))
 
 // temporary route to confirm express is working
-app.get('/', (req, res) => {
-  res.send('Hey there, try visiting the route /docker/allthethings ;)')
-})
-
-app.get('/docker/allthethings', (req, res) => {
+app.get('/api/docker/allthethings', (req, res) => {
   Promise.all([getDockerImages(), getDockerContainers()])
     .then( dockerInfo => res.json(dockerInfo))
     .catch( (err) => {
