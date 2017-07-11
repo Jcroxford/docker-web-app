@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Docker Web App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link rel="icon" href="/styles/images/favicon.png" type="image/png" sizes="16x16">-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="styles/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <section class="screen-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-offset-4 col-md-4 panel panel-default">
+            <div class="panel-body">
+              <form action="/api/docker/" class="form-horizontal">
+                <div class="form-group">
+                  <label 
+                    for="shortUrl" 
+                    class="from-control"
+                  >
+                    Welcome to the finest Docker Web Gui
+                  </label>
+                </div>
+                <div class="form-group">
+                  <div>
+                    <button type="submit" class="btn btn-post">Get Docker JSON</button>
+                  </div>
+                </div>
+              </form>
+              <a href="https://github.com/Jcroxford/docker-web-app" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

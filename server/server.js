@@ -5,11 +5,13 @@
       // displaying docker data and eventual user interaction
 
 const express =  require('express')
+const path = require('path')
 
 const {getDockerImages, getDockerContainers} = require('./utils/dockerCommands')
 
 const port  = process.env.PORT || 3000
 const app = express()
+app.use(express.static())
 
 // temporary route to confirm express is working
 app.get('/', (req, res) => {
