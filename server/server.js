@@ -31,5 +31,25 @@ app.get('/api/docker/allthethings', (req, res) => {
 })
 // end temporary
 
+app.get('/api/docker/images', (req, res) => {
+  getDockerImages()
+    .then( dockerInfo => res.json(dockerInfo))
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).send()
+    })
+})
+
+app.get('/api/docker/containers', (req, res) => {
+  getDockerContainers()
+    .then( dockerInfo => res.json(dockerInfo))
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).send()
+    })
+})
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`))
+
+// allows express testing
+module.exports.app = app
