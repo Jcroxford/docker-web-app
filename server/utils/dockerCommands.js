@@ -18,7 +18,7 @@ const getDockerImages = () => {
 }
 
 const getDockerContainers = () => {
-  const dkrPsCMD = `docker ps -a --format "{\\"id\\":\\"{{.ID}}\\", \\"image\\":\\"{{.Image}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"runningFor\\":\\"{{.RunningFor}}\\", \\"ports\\":\\"{{.Ports}}\\", \\"Status\\":\\"{{.Status}}\\", \\"size\\":\\"{{.Size}}\\", \\"names\\":\\"{{.Names}}\\", \\"labels\\":\\"{{.Labels}}\\", \\"mounts\\":\\"{{.Mounts}}\\", \\"networks\\":\\"{{.Networks}}\\"}"`
+  const dkrPsCMD = `docker ps -a --format "{\\"id\\":\\"{{.ID}}\\", \\"image\\":\\"{{.Image}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"runningFor\\":\\"{{.RunningFor}}\\", \\"ports\\":\\"{{.Ports}}\\", \\"status\\":\\"{{.Status}}\\", \\"size\\":\\"{{.Size}}\\", \\"names\\":\\"{{.Names}}\\", \\"labels\\":\\"{{.Labels}}\\", \\"mounts\\":\\"{{.Mounts}}\\", \\"networks\\":\\"{{.Networks}}\\"}"`
 
   return runDockerCommand(dkrPsCMD)
 }

@@ -18,31 +18,86 @@
     <div id="app">
       <section class="screen-center">
         <div class="container">
+
           <!--Docker images table-->
-          <div class="row">
-            <div class="col-md-offset-4 col-md-4 panel panel-default">
+          <div class="row" v-if="dockerImages">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Docker Images</h3>
+              </div>
               <div class="panel-body">
-                <form action="/api/docker/allthethings" class="form-horizontal">
-                  <div class="form-group">
-                    <label 
-                      for="shortUrl" 
-                      class="from-control"
-                    >
-                      Welcome to the Finest Docker Web Gui
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <div>
-                      <button type="submit" class="btn btn-post">Get Docker JSON</button>
-                    </div>
-                  </div>
-                </form>
-                <a href="https://github.com/Jcroxford/docker-web-app" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Repo</th>
+                      <th>Digest</th>
+                      <th>Created Since</th>
+                      <th>Created At</th>
+                      <th>Size</th>
+                      <!--<th></th>-->
+                    </tr> 
+                  </thead>
+                  <tbody>
+                    <tr v-for="image in dockerImages" :key="image.id">
+                      <td>{{image.id}}</td>
+                      <td>{{image.repo}}</td>
+                      <td>{{image.digest}}</td>
+                      <td>{{image.createdSince}}</td>
+                      <td>{{image.createdAt}}</td>
+                      <td>{{image.size}}</td>
+                    </tr> 
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
           <!--Docker Container table-->
+          <!--id image createdAt runningFor size ports status names labels mounts networks-->
+          <div class="row" v-if="dockerContainers">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Docker Images</h3>
+              </div>
+              <div class="panel-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Image</th>
+                      <th>Created At</th>
+                      <th>Running For</th>
+                      <th>Size</th>
+                      <th>Ports</th>
+                      <th>Status</th>
+                      <th>Names</th>
+                      <th>Labels</th>
+                      <th>Mounts</th>
+                      <th>Networks</th>
+                      <!--<th></th>-->
+                    </tr> 
+                  </thead>
+                  <tbody>
+                    <tr v-for="container in dockerContainers" :key="container.id">
+                      <td>{{container.id}}</td>
+                      <td>{{container.image}}</td>
+                      <td>{{container.createdAt}}</td>
+                      <td>{{container.runningFor}}</td>
+                      <td>{{container.size}}</td>
+                      <td>{{container.ports}}</td>
+                      <td>{{container.status}}</td>
+                      <td>{{container.names}}</td>
+                      <td>{{container.lables}}</td>
+                      <td>{{container.mounts}}</td>
+                      <td>{{container.networks}}</td>
+                      <!--<td></td>-->
+                    </tr> 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -72,3 +127,5 @@
     }
   })
 </script>
+
+<!--<a href="https://github.com/Jcroxford/docker-web-app" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>-->
