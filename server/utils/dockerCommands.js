@@ -23,6 +23,10 @@ const getDockerContainers = () => {
   return runDockerCommand(dkrPsCMD)
 }
 
+
+// command for removing containers from docker:
+  // one container -> docker -rm ID
+  // all exited containers -> docker rm $(docker ps -a -f status=exited -q)
 module.exports = {
   getDockerImages,
   getDockerContainers, 
