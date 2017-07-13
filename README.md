@@ -1,5 +1,8 @@
 # docker-web-app
-a gui for running docker commands
+a gui for running running and interaction with docker
+
+## User instructions
+
 
 ## dev instructions
 ssh: `git clone git@github.com:Jcroxford/docker-web-app.git`

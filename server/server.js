@@ -3,6 +3,11 @@
 // TODO: setup basic working rest api for docker commands
 // TODO: add index.html that uses vue/bootstrap/axios to provide a gui for 
       // displaying docker data and eventual user interaction
+      // to start, this site should have two tables. one for disaplying images,
+      // one for displaying conatiners(all containers not just running containers). 
+      // the images section should have a button we can click to run a docker image
+      // the containers should have a delete option 
+
 
 const express =  require('express')
 const path = require('path')

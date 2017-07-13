@@ -5,38 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<link rel="icon" href="/styles/images/favicon.png" type="image/png" sizes="16x16">-->
+    <link rel="icon" href="/styles/images/uvusquare.png" type="image/png" sizes="16x16">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="styles/style.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@2.3.4"></script>
   </head>
   <body>
-    <section class="screen-center">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-offset-4 col-md-4 panel panel-default">
-            <div class="panel-body">
-              <form action="/api/docker/allthethings" class="form-horizontal">
-                <div class="form-group">
-                  <label 
-                    for="shortUrl" 
-                    class="from-control"
-                  >
-                    Welcome to the finest Docker Web Gui
-                  </label>
-                </div>
-                <div class="form-group">
-                  <div>
-                    <button type="submit" class="btn btn-post">Get Docker JSON</button>
+    <div id="app">
+      <section class="screen-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-offset-4 col-md-4 panel panel-default">
+              <div class="panel-body">
+                <form action="/api/docker/allthethings" class="form-horizontal">
+                  <div class="form-group">
+                    <label 
+                      for="shortUrl" 
+                      class="from-control"
+                    >
+                      Welcome to the Finest Docker Web Gui {{message}}
+                    </label>
                   </div>
-                </div>
-              </form>
-              <a href="https://github.com/Jcroxford/docker-web-app" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+                  <div class="form-group">
+                    <div>
+                      <button type="submit" class="btn btn-post">Get Docker JSON</button>
+                    </div>
+                  </div>
+                </form>
+                <a href="https://github.com/Jcroxford/docker-web-app" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </body>
 </html>
+
+<script>
+  const App = new Vue({
+    el: '#app',
+    data: {
+      message: 'hello Vue'
+    }
+  })
+  axios.get('api/docker/allthethings')
+    .then( response => console.log(JSON.stringify(response.data, null, 2)))
+</script>
