@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="styles/style.css" rel="stylesheet">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue@2.3.4"></script>
   </head>
@@ -54,7 +55,6 @@
           </div>
 
           <!--Docker Container table-->
-          <!--id image createdAt runningFor size ports status names labels mounts networks-->
           <div class="row" v-if="dockerContainers">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -64,33 +64,33 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      <th>Names</th>
+                      <!--<th>Id</th>-->
                       <th>Image</th>
                       <th>Created At</th>
                       <th>Running For</th>
                       <th>Size</th>
-                      <th>Ports</th>
+                      <!--<th>Ports</th>-->
                       <th>Status</th>
-                      <th>Names</th>
-                      <th>Labels</th>
-                      <th>Mounts</th>
-                      <th>Networks</th>
+                      <!--<th>Labels</th>-->
+                      <!--<th>Mounts</th>-->
+                      <!--<th>Networks</th>-->
                       <!--<th></th>-->
                     </tr> 
                   </thead>
                   <tbody>
                     <tr v-for="container in dockerContainers" :key="container.id">
-                      <td>{{container.id}}</td>
+                      <td>{{container.names}}</td>
+                      <!--<td>{{container.id}}</td>-->
                       <td>{{container.image}}</td>
                       <td>{{container.createdAt}}</td>
                       <td>{{container.runningFor}}</td>
                       <td>{{container.size}}</td>
-                      <td>{{container.ports}}</td>
+                      <!--<td>{{container.ports}}</td>-->
                       <td>{{container.status}}</td>
-                      <td>{{container.names}}</td>
-                      <td>{{container.lables}}</td>
-                      <td>{{container.mounts}}</td>
-                      <td>{{container.networks}}</td>
+                      <!--<td>{{container.lables}}</td>-->
+                      <!--<td>{{container.mounts}}</td>-->
+                      <!--<td>{{container.networks}}</td>-->
                       <!--<td></td>-->
                     </tr> 
                   </tbody>
@@ -119,13 +119,35 @@
       dockerContainers: null
     },
     methods: {
+      formatDate(date) {
+        let dt = new Date(date).getTime()
+        let formattedDate = moment(dt).format('MMM DD, YYYY hh:mma')
+
+        return formattedDate
+      },
       getDockerImages() {
         axios.get('api/docker/images')
-          .then( response => this.dockerImages = response.data)
+          .then( response => {
+            let cleanData = response.data.map(images => {
+              images.createdAt = this.formatDate(images.createdAt)
+              
+              return images
+            })
+            this.dockerImages = cleanData
+          })
       },
       getDockerContainers() {
         axios.get('api/docker/containers')
-          .then( response => this.dockerContainers = response.data)
+          .then( response => {
+            let cleanData = response.data.map(container => {
+              container.status = container.status.replace(/ .+$/, '') // TODO: may need to change so that exit code can be displayed
+
+              container.createdAt = this.formatDate(container.createdAt)
+              
+              return container
+            })
+            this.dockerContainers = cleanData
+          })
       }
     },
     mounted() {

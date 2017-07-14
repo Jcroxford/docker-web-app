@@ -1,4 +1,4 @@
-// TODO: write tests for dockerCommands.js
+// TODO: modify tests for dockerCommands.js
 // TODO: modify index.html to provide more functionality to docker.
       // the images section should have a button we can click to run a docker image
       // the containers should have a delete option 
@@ -14,7 +14,7 @@ const port  = process.env.PORT || 3000
 const app = express()
 
 app.use(express.static(publicPath))
-
+ 
 // temporary route to confirm express is working
 app.get('/api/docker/allthethings', (req, res) => {
   Promise.all([getDockerImages(), getDockerContainers()])

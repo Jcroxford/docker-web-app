@@ -3,7 +3,9 @@ const exec = require('child_process').exec
 const runDockerCommand = (command) => {
   return new Promise( (resolve, reject) => {
     exec(command, (err, stdoutStr, stdErrStr) => {
-      if(err) reject(err)
+      if(err) {
+        reject(err)
+      }
 
       let results = stdoutStr.split('\n').slice(0, -1).map( result => JSON.parse(result))
       resolve(results)
@@ -26,7 +28,10 @@ const getDockerContainers = () => {
 
 // command for removing containers from docker:
   // one container -> docker -rm ID
-  // all exited containers -> docker rm $(docker ps -a -f status=exited -q)
+
+// commad for stopping running containers
+  // one container -> docker stop ID
+  // stop multiple containers -> docker stop ID $(docker ps -a -f -q)
 module.exports = {
   getDockerImages,
   getDockerContainers, 
