@@ -6,13 +6,13 @@
 // TODO: update readme
 // TODO: modify tests for dockerCommands.js
 // TODO: modify index.html to provide more functionality to docker.
-      // the images section should have a button we can click to run a docker image
-      // the containers should have a delete option 
+      // images and containers section should have a button we can click to run a docker instance
+      // and a button to delete a docker instance
 
 const express =  require('express')
 const path = require('path')
 
-const {getDockerImages, getDockerContainers} = require('./utils/dockerCommands')
+const {getDockerImages, getDockerContainers, removeDockerContainer} = require('./utils/dockerCommands')
 
 const publicPath = (`${__dirname}/public`)
 const port  = process.env.PORT || 3000
@@ -46,6 +46,15 @@ app.get('/api/docker/containers', (req, res) => {
     .catch( (err) => {
       console.log(err)
       res.status(500).send()
+    })
+})
+
+app.get('/api/docker/containers/remove/:id', (req, res) => {
+  removeDockerContainer(req.params.id)
+    .then( () => res.json({success: 'container successfully deleted'}))
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).json({error: 'unable to remove container'})
     })
 })
 

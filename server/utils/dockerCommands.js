@@ -1,6 +1,6 @@
 const exec = require('child_process').exec
 
-const runDockerCommand = (command) => {
+const runDockerCommandWithResults = (command) => {
   return new Promise( (resolve, reject) => {
     exec(command, (err, stdoutStr, stdErrStr) => {
       if(err) {
@@ -13,18 +13,35 @@ const runDockerCommand = (command) => {
   })
 }
 
+const runDockerCommandWithoutResults = (command) => {
+  return new Promise( (resolve, reject) => {
+    exec(command, (err, stdoutStr, stdErrStr) => {
+      if(err) {
+        reject(err)
+      }
+      resolve()
+    })
+  })
+}
+
+
 const getDockerImages = () => {
   const dkrImagesCMD = `docker images --format "{\\"id\\":\\"{{.ID}}\\", \\"repo\\": \\"{{.Repository}}\\", \\"tag\\":\\"{{.Tag}}\\", \\"digest\\":\\"{{.Digest}}\\", \\"createdSince\\":\\"{{.CreatedSince}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"size\\":\\"{{.Size}}\\"}"`
   
-  return runDockerCommand(dkrImagesCMD)
+  return runDockerCommandWithResults(dkrImagesCMD)
 }
 
 const getDockerContainers = () => {
   const dkrPsCMD = `docker ps -a --format "{\\"id\\":\\"{{.ID}}\\", \\"image\\":\\"{{.Image}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"runningFor\\":\\"{{.RunningFor}}\\", \\"ports\\":\\"{{.Ports}}\\", \\"status\\":\\"{{.Status}}\\", \\"size\\":\\"{{.Size}}\\", \\"names\\":\\"{{.Names}}\\", \\"labels\\":\\"{{.Labels}}\\", \\"mounts\\":\\"{{.Mounts}}\\", \\"networks\\":\\"{{.Networks}}\\"}"`
 
-  return runDockerCommand(dkrPsCMD)
+  return runDockerCommandWithResults(dkrPsCMD)
 }
 
+const removeDockerContainer = (id) => {
+  const dkrRmCMD = `docker rm ${id}`
+
+  return runDockerCommandWithoutResults(dkrRmCMD)
+}
 
 // command for removing containers from docker:
   // one container -> docker -rm ID
@@ -35,5 +52,6 @@ const getDockerContainers = () => {
 module.exports = {
   getDockerImages,
   getDockerContainers, 
-  runDockerCommand
+  runDockerCommandWithResults,
+  removeDockerContainer
 }
