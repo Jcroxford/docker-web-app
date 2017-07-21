@@ -1,5 +1,4 @@
 // TODO: figure out what options to include in gui(e.g. remove container? start container? stop container etc.)
-// TODO: where should these options be displayed on the page?
 // TODO: should we change display configuration? (tables that scroll separate pages, etc)
 // TODO: setup api routes to handle said requests
 // TODO: setup vue ajax reqs to those routes
