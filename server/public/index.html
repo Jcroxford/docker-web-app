@@ -36,7 +36,7 @@
                       <th>Created Since</th>
                       <th>Created At</th>
                       <th>Size</th>
-                      <!--<th></th>-->
+                      <th>Options</th>
                     </tr> 
                   </thead>
                   <tbody>
@@ -47,6 +47,7 @@
                       <td>{{image.createdSince}}</td>
                       <td>{{image.createdAt}}</td>
                       <td>{{image.size}}</td>
+                      <td></td>
                     </tr> 
                   </tbody>
                 </table>
@@ -75,7 +76,7 @@
                       <!--<th>Labels</th>-->
                       <!--<th>Mounts</th>-->
                       <!--<th>Networks</th>-->
-                      <th>Remove</th>
+                      <th>Options</th>
                     </tr> 
                   </thead>
                   <tbody>
@@ -91,7 +92,17 @@
                       <!--<td>{{container.lables}}</td>-->
                       <!--<td>{{container.mounts}}</td>-->
                       <!--<td>{{container.networks}}</td>-->
-                      <td v-if="container.status === 'Exited'"><span @click="deleteContainer(container)" class="glyphicon glyphicon-trash text-danger"></span></td>
+                      <td v-if="container.status === 'Exited'">
+                        <span 
+                          @click="startContainer(container)" 
+                          class="glyphicon glyphicon-play" 
+                          style="color: #7CB342 "
+                        ></span>
+                        <span 
+                          @click="deleteContainer(container)" 
+                          class="glyphicon glyphicon-trash text-danger"
+                        ></span>
+                      </td>
                       <td v-else><div></div></td>
                     </tr> 
                   </tbody>
@@ -103,7 +114,7 @@
           <!--extras-->
           <div class="row text-center">
             <a href="https://github.com/Jcroxford/docker-web-app" target="_blank">
-              <i class="fa fa-github fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-github fa-2x"></i>
             </a>            
           </div>
         </div>
@@ -136,7 +147,7 @@
             })
             this.dockerImages = cleanData
           })
-          .catch( err => console.log('unable to retrieve image list')) // FIXME: display this to the user in a better way?
+          .catch( err => console.log('unable to retrieve image list'))
       },
       getDockerContainers() {
         axios.get('api/docker/containers')
@@ -150,16 +161,29 @@
             })
             this.dockerContainers = cleanData
           })
-          .catch( err => console.log('unable to retrieve container list')) // FIXME: display this to the user in a better way?
+          .catch( err => console.log('unable to retrieve container list'))
       },
       deleteContainer(container) {
         axios.get(`api/docker/containers/remove/${container.id}`)
           .then(response => {
             if(response.data.success) {
+              console.log(response.data);
               this.getDockerContainers()
             }
           })
-          .catch( err => console.log('unable to remove container')) // FIXME: display this to the user in a better way?
+          .catch( err => console.log('unable to remove container'))
+      },
+      // FIXME: race condition with docker execution. Sometimes docker command has finished 
+        // running by thhe time vue updates and sometimes it hasnt
+      startContainer(container) { 
+        axios.get(`api/docker/containers/start/${container.id}`)
+          .then( response => {
+            if(response.data.success) {
+              console.log('container started');
+              this.getDockerContainers()
+            }
+          })
+          .catch( err => console.log('unable to start container'))
       }
     },
     mounted() {

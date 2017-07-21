@@ -43,8 +43,12 @@ const removeDockerContainer = (id) => {
   return runDockerCommandWithoutResults(dkrRmCMD)
 }
 
-// command for removing containers from docker:
-  // one container -> docker -rm ID
+// const startDockerImage = ()
+const startDockerContainer = (id) => {
+  const dkrStartCMD = `docker start ${id}`
+
+  return runDockerCommandWithoutResults(dkrStartCMD)
+}
 
 // commad for stopping running containers
   // one container -> docker stop ID
@@ -53,5 +57,6 @@ module.exports = {
   getDockerImages,
   getDockerContainers, 
   runDockerCommandWithResults,
-  removeDockerContainer
+  removeDockerContainer,
+  startDockerContainer
 }

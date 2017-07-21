@@ -12,7 +12,12 @@
 const express =  require('express')
 const path = require('path')
 
-const {getDockerImages, getDockerContainers, removeDockerContainer} = require('./utils/dockerCommands')
+const {
+  getDockerImages, 
+  getDockerContainers, 
+  removeDockerContainer,
+  startDockerContainer
+} = require('./utils/dockerCommands')
 
 const publicPath = (`${__dirname}/public`)
 const port  = process.env.PORT || 3000
@@ -55,6 +60,17 @@ app.get('/api/docker/containers/remove/:id', (req, res) => {
     .catch( (err) => {
       console.log(err)
       res.status(500).json({error: 'unable to remove container'})
+    })
+})
+
+app.get('/api/docker/containers/start/:id', (req, res) => {
+  startDockerContainer(req.params.id)
+    .then( () => {
+      res.json({success: 'container is now running'})
+    })
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).json({error: 'unable to start container'})
     })
 })
 
