@@ -193,7 +193,7 @@
         axios.get(`api/docker/containers/start/${container.id}`)
           .then( response => {
             if(response.data.success) {
-              console.log('container started')
+              console.log(response.data.success)
               this.getDockerContainers()
             }
           })
@@ -203,7 +203,7 @@
         axios.get(`api/docker/containers/stop/${container.id}`)
           .then( response => {
             if(response.data.success) {
-              console.log('container stopped')
+              console.log(response.data.success)
               this.getDockerContainers()
             }
           })

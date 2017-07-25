@@ -26,17 +26,6 @@ const port  = process.env.PORT || 3000
 const app = express()
 
 app.use(express.static(publicPath))
- 
-// temporary route to confirm express is working
-app.get('/api/docker/allthethings', (req, res) => {
-  Promise.all([getDockerImages(), getDockerContainers()])
-    .then( dockerInfo => res.json(dockerInfo))
-    .catch( (err) => {
-      console.log(err)
-      res.status(500).send()
-    })
-})
-// end temporary
 
 // image routes
 app.get('/api/docker/images', (req, res) => {
