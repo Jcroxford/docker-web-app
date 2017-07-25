@@ -15,7 +15,8 @@ const {
   getDockerImages, 
   getDockerContainers, 
   removeDockerContainer,
-  startDockerContainer
+  startDockerContainer,
+  stopDockerContainer
 } = require('./utils/dockerCommands')
 
 const publicPath = (`${__dirname}/public`)
@@ -64,12 +65,19 @@ app.get('/api/docker/containers/remove/:id', (req, res) => {
 
 app.get('/api/docker/containers/start/:id', (req, res) => {
   startDockerContainer(req.params.id)
-    .then( () => {
-      res.json({success: 'container is now running'})
-    })
+    .then( () => res.json({success: 'container is now running'}))
     .catch( (err) => {
       console.log(err)
       res.status(500).json({error: 'unable to start container'})
+    })
+})
+
+app.get('/api/docker/containers/stop/:id', (req, res) => {
+  stopDockerContainer(req.params.id)
+    .then( () => res.json({success: 'container is has stopped'}))
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).json({error: 'unable to stop container'})
     })
 })
 

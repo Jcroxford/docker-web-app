@@ -50,6 +50,12 @@ const startDockerContainer = (id) => {
   return runDockerCommandWithoutResults(dkrStartCMD)
 }
 
+stopDockerContainer = (id) => {
+  const dkrStopCMD = `docker stop ${id}`
+
+  return runDockerCommandWithoutResults(dkrStopCMD)
+}
+
 // commad for stopping running containers
   // one container -> docker stop ID
   // stop multiple containers -> docker stop ID $(docker ps -a -f -q)
@@ -58,5 +64,6 @@ module.exports = {
   getDockerContainers, 
   runDockerCommandWithResults,
   removeDockerContainer,
-  startDockerContainer
+  startDockerContainer,
+  stopDockerContainer
 }

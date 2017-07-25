@@ -96,11 +96,16 @@
                         <span 
                           @click="startContainer(container)" 
                           class="glyphicon glyphicon-play" 
-                          style="color: #7CB342 "
                         ></span>
                         <span 
                           @click="deleteContainer(container)" 
                           class="glyphicon glyphicon-trash text-danger"
+                        ></span>
+                      </td>
+                      <td v-else>
+                        <span 
+                          @click="stopContainer(container)" 
+                          class="glyphicon glyphicon-stop" 
                         ></span>
                       </td>
                       <td v-else><div></div></td>
@@ -179,11 +184,21 @@
         axios.get(`api/docker/containers/start/${container.id}`)
           .then( response => {
             if(response.data.success) {
-              console.log('container started');
+              console.log('container started')
               this.getDockerContainers()
             }
           })
           .catch( err => console.log('unable to start container'))
+      },
+      stopContainer(container) {
+        axios.get(`api/docker/containers/stop/${container.id}`)
+          .then( response => {
+            if(response.data.success) {
+              console.log('container stopped')
+              this.getDockerContainers()
+            }
+          })
+          .catch( err => console.log('unable to stop container'))
       }
     },
     mounted() {
@@ -199,5 +214,11 @@
   }
   .glyphicon:hover {
     cursor: pointer;
+  }
+  .glyphicon-play {
+    color: #7CB342;
+  }
+  .glyphicon-stop {
+    color: #F9A825;
   }
 </style>
