@@ -13,6 +13,8 @@ const path = require('path')
 
 const {
   getDockerImages, 
+  startDockerImage,
+  deleteDockerImage,
   getDockerContainers, 
   removeDockerContainer,
   startDockerContainer,
@@ -36,6 +38,7 @@ app.get('/api/docker/allthethings', (req, res) => {
 })
 // end temporary
 
+// image routes
 app.get('/api/docker/images', (req, res) => {
   getDockerImages()
     .then( dockerInfo => res.json(dockerInfo))
@@ -45,6 +48,25 @@ app.get('/api/docker/images', (req, res) => {
     })
 })
 
+app.get('/api/docker/images/start/:repo', (req, res) => {
+  startDockerImage(req.params.repo)
+  .then( response => res.json({success: 'image successfully started'}))
+  .catch( (err) => {
+      console.log(err)
+      res.status(500).send()
+    })
+})
+
+app.get('/api/docker/images/delete/:repo', (req, res) => {
+  deleteDockerImage(req.params.repo)
+    .then( response => res.json({success: 'image successfully removed'}))
+    .catch( (err) => {
+      console.log(err)
+      res.status(500).send()
+    })
+})
+
+// container routes
 app.get('/api/docker/containers', (req, res) => {
   getDockerContainers()
     .then( dockerInfo => res.json(dockerInfo))

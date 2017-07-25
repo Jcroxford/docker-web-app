@@ -25,12 +25,28 @@ const runDockerCommandWithoutResults = (command) => {
 }
 
 
+// image commands
 const getDockerImages = () => {
   const dkrImagesCMD = `docker images --format "{\\"id\\":\\"{{.ID}}\\", \\"repo\\": \\"{{.Repository}}\\", \\"tag\\":\\"{{.Tag}}\\", \\"digest\\":\\"{{.Digest}}\\", \\"createdSince\\":\\"{{.CreatedSince}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"size\\":\\"{{.Size}}\\"}"`
   
   return runDockerCommandWithResults(dkrImagesCMD)
 }
 
+// this function uses repo name to start because the image name that is passed to the new container
+  // is the value it's given during run command
+const startDockerImage = (repo) => {
+  const dkrStartCMD = `docker run ${repo}`
+
+  return runDockerCommandWithoutResults(dkrStartCMD)
+}
+
+const deleteDockerImage = (repo) => {
+  const dkrRemoveCMD = `docker image rm ${repo}`
+
+  return runDockerCommandWithoutResults(dkrRemoveCMD)
+}
+
+// container commands
 const getDockerContainers = () => {
   const dkrPsCMD = `docker ps -a --format "{\\"id\\":\\"{{.ID}}\\", \\"image\\":\\"{{.Image}}\\", \\"createdAt\\":\\"{{.CreatedAt}}\\", \\"runningFor\\":\\"{{.RunningFor}}\\", \\"ports\\":\\"{{.Ports}}\\", \\"status\\":\\"{{.Status}}\\", \\"size\\":\\"{{.Size}}\\", \\"names\\":\\"{{.Names}}\\", \\"labels\\":\\"{{.Labels}}\\", \\"mounts\\":\\"{{.Mounts}}\\", \\"networks\\":\\"{{.Networks}}\\"}"`
 
@@ -38,12 +54,12 @@ const getDockerContainers = () => {
 }
 
 const removeDockerContainer = (id) => {
-  const dkrRmCMD = `docker rm ${id}`
-
+  // running with -f allows the removal of image even if it has existing containers(this will change the name of the container to it's id)
+  const dkrRmCMD = `docker rm -f ${id}` 
+  
   return runDockerCommandWithoutResults(dkrRmCMD)
 }
 
-// const startDockerImage = ()
 const startDockerContainer = (id) => {
   const dkrStartCMD = `docker start ${id}`
 
@@ -56,11 +72,10 @@ stopDockerContainer = (id) => {
   return runDockerCommandWithoutResults(dkrStopCMD)
 }
 
-// commad for stopping running containers
-  // one container -> docker stop ID
-  // stop multiple containers -> docker stop ID $(docker ps -a -f -q)
 module.exports = {
   getDockerImages,
+  startDockerImage,
+  deleteDockerImage,
   getDockerContainers, 
   runDockerCommandWithResults,
   removeDockerContainer,

@@ -47,7 +47,16 @@
                       <td>{{image.createdSince}}</td>
                       <td>{{image.createdAt}}</td>
                       <td>{{image.size}}</td>
-                      <td></td>
+                      <td>
+                        <span 
+                          @click="startImage(image)" 
+                          class="glyphicon glyphicon-play" 
+                        ></span>
+                        <span 
+                          @click="deleteImage(image)" 
+                          class="glyphicon glyphicon-trash text-danger"
+                        ></span>
+                      </td>
                     </tr> 
                   </tbody>
                 </table>
@@ -199,6 +208,26 @@
             }
           })
           .catch( err => console.log('unable to stop container'))
+      },
+      startImage(image) {
+        axios.get(`api/docker/images/start/${image.repo}`)
+          .then( response => {
+            if(response.data.success) {
+              console.log(response.data.success)
+              this.getDockerContainers()
+            }
+          })
+          .catch( err => console.log('unable to remove image'))
+      },
+      deleteImage(image) {
+        axios.get(`api/docker/images/delete/${image.repo}`)
+          .then( response => {
+            if(response.data.success) {
+              console.log(response.data.success)
+              this.getDockerImages()
+            }
+          })
+          .catch( err => console.log('unable to remove image'))
       }
     },
     mounted() {
