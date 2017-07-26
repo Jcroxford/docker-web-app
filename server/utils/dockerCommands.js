@@ -41,7 +41,8 @@ const startDockerImage = (repo) => {
 }
 
 const deleteDockerImage = (repo) => {
-  const dkrRemoveCMD = `docker image rm ${repo}`
+  // running with -f allows the removal of image even if it has existing containers(this will change the name of the container to it's id)
+  const dkrRemoveCMD = `docker image rm -f ${repo}`
 
   return runDockerCommandWithoutResults(dkrRemoveCMD)
 }
@@ -54,9 +55,8 @@ const getDockerContainers = () => {
 }
 
 const removeDockerContainer = (id) => {
-  // running with -f allows the removal of image even if it has existing containers(this will change the name of the container to it's id)
-  const dkrRmCMD = `docker rm -f ${id}` 
-  
+  const dkrRmCMD = `docker rm ${id}` 
+
   return runDockerCommandWithoutResults(dkrRmCMD)
 }
 
