@@ -35,7 +35,7 @@ const getDockerImages = () => {
 // this function uses repo name to start because the image name that is passed to the new container
   // is the value it's given during run command
 const startDockerImage = (repo) => {
-  const dkrStartCMD = `docker run ${repo}`
+  const dkrStartCMD = `docker run -d ${repo}`
 
   return runDockerCommandWithoutResults(dkrStartCMD)
 }
